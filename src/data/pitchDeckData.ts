@@ -48,7 +48,7 @@ export interface UnitEconomicsData {
 export const pitchDeckData = {
   // Cover Slide
   cover: {
-    tagline: 'Казахстанский бренд профессиональной косметики для укладки волос',
+    tagline: 'Культовые средства для идеальной укладки',
     subtitle: 'Инвестиционная презентация',
     year: '2025',
     fundingRound: 'Seed Round',
@@ -99,32 +99,32 @@ export const pitchDeckData = {
   solution: {
     title: 'Решение',
     mainText:
-      'MARMELAT — первый казахстанский бренд hair care, созданный для климата и людей Центральной Азии',
+      'MARMELAT — казахстанский бренд культовых средств для укладки волос',
     valueProposition: 'Укладка за 2 минуты без жирности и утяжеления',
     features: [
       {
-        title: 'Локальная адаптация',
-        description: '100% адаптация формул под климат и воду Казахстана',
+        title: 'Узнаваемый стиль',
+        description: 'Собственный узнаваемый стиль и упаковка',
       },
       {
-        title: 'Чистый состав',
-        description: 'Без SLS, парабенов и спирта',
+        title: 'Эффективные формулы',
+        description: 'Не утяжеляющие волосы составы',
       },
       {
-        title: 'Halal-сертификация',
-        description: 'Полное соответствие Halal-стандартам',
+        title: 'Универсальность',
+        description: 'Подходит для профессионалов и домашнего ухода',
       },
       {
-        title: 'Доступная цена',
-        description: 'На 30-40% дешевле импортных аналогов',
+        title: 'Баланс сегментов',
+        description: 'Между масс-маркетом и премиумом',
       },
     ],
     productCategories: [
-      'Восковые стики',
-      'Гели для укладки',
-      'Профессиональные щётки',
-      'Шёлковые бигуди',
-      'Наборы для укладки',
+      'Восковой стик (флагман)',
+      'Щётки для волос',
+      'Бигуди',
+      'Шампуни и маски',
+      'Пудра для окрашивания волос',
     ],
   },
 
@@ -152,13 +152,14 @@ export const pitchDeckData = {
       { metric: '12-15%', label: 'Ежегодный рост hair care сегмента' },
       { metric: '<10%', label: 'Доля локальных брендов' },
       { metric: '3x', label: 'Рост онлайн-продаж за 2 года' },
-      { metric: '5', label: 'Экспортных рынков в фокусе' },
+      { metric: '5+', label: 'Экспортных рынков в фокусе' },
     ],
     exportMarkets: [
       { name: 'Узбекистан', population: '35M', status: 'priority' },
       { name: 'Кыргызстан', population: '7M', status: 'priority' },
       { name: 'Азербайджан', population: '10M', status: 'planned' },
       { name: 'ОАЭ', population: '10M', status: 'planned' },
+      { name: 'Европа', population: '450M', status: 'planned' },
     ],
   },
 
@@ -170,27 +171,26 @@ export const pitchDeckData = {
     categories: [
       {
         name: 'Средства для укладки',
-        items: ['Восковой стик (флагман)', 'Гель для пушковых волос'],
-        revenue: 45,
+        items: ['Восковой стик (флагман)', 'Пудра для окрашивания волос'],
+        revenue: 40,
         status: 'active',
       },
       {
-        name: 'Инструменты',
-        items: ['Профессиональная щётка', 'Щётка и расчёска-гребень'],
+        name: 'Уход за волосами',
+        items: ['Шампуни', 'Маски'],
         revenue: 25,
         status: 'active',
       },
       {
-        name: 'Аксессуары и наборы',
-        items: ['Шёлковые бигуди', 'Базовый набор', 'Полный набор'],
-        revenue: 30,
+        name: 'Инструменты',
+        items: ['Щётки для волос', 'Бигуди'],
+        revenue: 35,
         status: 'active',
       },
     ],
     pipeline: [
-      { name: 'Шампуни и маски', timeline: 'Q2 2025' },
-      { name: 'Пудра для волос', timeline: 'Q3 2025' },
-      { name: 'Натуральные масла', timeline: 'Q4 2025' },
+      { name: 'Натуральные масла', timeline: 'Q3 2025' },
+      { name: 'Уходовые линии', timeline: 'Q4 2025' },
     ],
   },
 
@@ -241,7 +241,7 @@ export const pitchDeckData = {
     kpis: [
       { value: '$100K', label: 'Выручка за 12 месяцев', growth: null },
       { value: '8', label: 'SKU в продаже', growth: null },
-      { value: '7+', label: 'Ритейл-партнёров', growth: null },
+      { value: '6+', label: 'Ритейл-партнёров', growth: null },
       { value: '50K+', label: 'Подписчиков в Instagram', growth: '+200%' },
     ],
     milestones: [
@@ -253,6 +253,8 @@ export const pitchDeckData = {
       { name: 'Magnum', type: 'Крупнейшая сеть КЗ' },
       { name: 'Золотое Яблоко', type: 'Premium beauty' },
       { name: 'Mon Amie', type: 'Beauty retail' },
+      { name: 'Французский дом', type: 'Beauty retail' },
+      { name: 'Бьюти мания', type: 'Beauty retail' },
       { name: 'Kaspi', type: 'E-commerce #1' },
     ],
   },
@@ -360,10 +362,10 @@ export const pitchDeckData = {
   mission: {
     title: 'Миссия',
     statement:
-      'Сделать профессиональный уход за волосами доступным для каждой женщины Центральной Азии',
+      'Помогать каждой женщине чувствовать себя уверенно и красиво',
     vision:
       'Стать #1 локальным beauty-брендом в регионе СНГ к 2030 году',
-    values: ['Качество', 'Доступность', 'Локальность', 'Инновации'],
+    values: ['Уверенность', 'Красота', 'Трендовость'],
   },
 
   // Contact

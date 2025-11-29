@@ -7,78 +7,108 @@ import { contactInfo } from '../data/brandData';
 // CHART COMPONENTS
 // ============================================
 
-// Revenue Bar Chart
-const RevenueChart = ({ data, maxValue }: { data: { year: string; revenue: number }[]; maxValue: number }) => {
-  const chartHeight = 200;
-  const barWidth = 60;
-  const gap = 40;
-  const chartWidth = data.length * (barWidth + gap);
+// Format revenue for display
+const formatRevenue = (revenue: number): string => {
+  if (revenue >= 1000000) {
+    return `$${(revenue / 1000000).toFixed(1)}M`;
+  } else if (revenue >= 1000) {
+    return `$${(revenue / 1000).toFixed(0)}K`;
+  }
+  return `$${revenue}`;
+};
+
+// Revenue Line Chart - visual representation
+const RevenueChart = ({ data }: { data: { year: string; revenue: number }[] }) => {
+  const chartHeight = 180;
+  const chartWidth = 500;
+  const padding = { top: 40, right: 20, bottom: 40, left: 20 };
+
+  // Fixed visual Y positions (from bottom, as percentage)
+  const visualYPercents = [85, 70, 55, 40, 25, 10];
+
+  const points = data.map((item, index) => {
+    const x = padding.left + (index / (data.length - 1)) * (chartWidth - padding.left - padding.right);
+    const yPercent = visualYPercents[index] || 50;
+    const y = padding.top + (yPercent / 100) * (chartHeight - padding.top - padding.bottom);
+    return { x, y, ...item };
+  });
+
+  const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
 
   return (
-    <svg viewBox={`0 0 ${chartWidth + 40} ${chartHeight + 60}`} className="w-full h-64">
-      {/* Y-axis labels */}
-      {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => (
-        <g key={i}>
-          <line
-            x1="40"
-            y1={chartHeight - ratio * chartHeight + 20}
-            x2={chartWidth + 40}
-            y2={chartHeight - ratio * chartHeight + 20}
-            stroke="#e5e7eb"
-            strokeDasharray="4"
-          />
-          <text
-            x="35"
-            y={chartHeight - ratio * chartHeight + 25}
-            textAnchor="end"
-            className="fill-gray-500 text-xs"
-          >
-            ${(maxValue * ratio / 1000000).toFixed(1)}M
-          </text>
-        </g>
+    <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} className="w-full h-56">
+      {/* Grid lines */}
+      {[0.25, 0.5, 0.75].map((ratio) => (
+        <line
+          key={ratio}
+          x1={padding.left}
+          y1={padding.top + ratio * (chartHeight - padding.top - padding.bottom)}
+          x2={chartWidth - padding.right}
+          y2={padding.top + ratio * (chartHeight - padding.top - padding.bottom)}
+          stroke="#e5e7eb"
+          strokeDasharray="4"
+        />
       ))}
 
-      {/* Bars */}
-      {data.map((item, index) => {
-        const barHeight = (item.revenue / maxValue) * chartHeight;
-        const x = 50 + index * (barWidth + gap);
-        const y = chartHeight - barHeight + 20;
+      {/* Line */}
+      <motion.path
+        d={linePath}
+        fill="none"
+        stroke="#E8A5C4"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
+      />
 
+      {/* Points and labels */}
+      {points.map((point, index) => {
+        const isProjection = parseInt(point.year) >= 2025;
         return (
-          <g key={item.year}>
-            <motion.rect
-              x={x}
-              y={y}
-              width={barWidth}
-              height={barHeight}
-              rx="4"
-              initial={{ height: 0, y: chartHeight + 20 }}
-              animate={{ height: barHeight, y }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
-              className="fill-marmelat-dark-pink"
+          <g key={point.year}>
+            <motion.circle
+              cx={point.x}
+              cy={point.y}
+              r="6"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.3 + index * 0.1 }}
+              className={isProjection ? "fill-green-500 stroke-white stroke-2" : "fill-marmelat-dark-pink stroke-white stroke-2"}
             />
-            <text
-              x={x + barWidth / 2}
-              y={chartHeight + 45}
-              textAnchor="middle"
-              className="fill-gray-700 text-sm font-medium"
-            >
-              {item.year}
-            </text>
+            {/* Value label */}
             <motion.text
-              x={x + barWidth / 2}
-              y={y - 8}
+              x={point.x}
+              y={point.y - 15}
               textAnchor="middle"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 + index * 0.1 }}
               className="fill-gray-900 text-xs font-bold"
             >
-              ${(item.revenue / 1000000).toFixed(1)}M
+              {formatRevenue(point.revenue)}
             </motion.text>
+            {/* Year label */}
+            <text
+              x={point.x}
+              y={chartHeight - 10}
+              textAnchor="middle"
+              className="fill-gray-600 text-xs"
+            >
+              {point.year}
+            </text>
           </g>
         );
       })}
+
+      {/* Legend */}
+      <g>
+        <circle cx={30} cy={15} r="5" className="fill-marmelat-dark-pink" />
+        <text x={40} y={18} className="fill-gray-600 text-xs">Факт</text>
+        <circle cx={90} cy={15} r="5" className="fill-green-500" />
+        <text x={100} y={18} className="fill-gray-600 text-xs">Прогноз</text>
+      </g>
     </svg>
   );
 };
@@ -762,7 +792,6 @@ const FinancialsSlide = () => {
     ...pitchDeckData.financials.historicalRevenue,
     ...pitchDeckData.financials.projections.map(p => ({ year: p.year, revenue: p.revenue })),
   ];
-  const maxRevenue = Math.max(...allRevenue.map(r => r.revenue));
 
   return (
     <div className="h-full px-8 py-12 overflow-y-auto">
@@ -804,7 +833,7 @@ const FinancialsSlide = () => {
       <div className="max-w-4xl mx-auto mb-12">
         <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Выручка и прогноз</h3>
         <div className="bg-white rounded-xl p-6 border border-gray-200">
-          <RevenueChart data={allRevenue} maxValue={maxRevenue} />
+          <RevenueChart data={allRevenue} />
         </div>
       </div>
 
@@ -831,7 +860,7 @@ const FinancialsSlide = () => {
                 <tr key={proj.year} className="border-t border-gray-100">
                   <td className="p-4 font-bold text-gray-900">{proj.year}</td>
                   <td className="p-4 text-right text-gray-700">{proj.revenueFormatted}</td>
-                  <td className="p-4 text-right text-gray-700">${(proj.ebitda / 1000).toFixed(0)}K</td>
+                  <td className="p-4 text-right text-gray-700">${(proj.ebitda / 1000000).toFixed(proj.ebitda >= 1000000 ? 1 : 2)}M</td>
                   <td className="p-4 text-right font-bold text-green-600">{proj.ebitdaMargin}</td>
                 </tr>
               ))}
