@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Horizon';
+  src: url('/fonts/Horizon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --color-primary: #F5BED7;
+  --color-primary-dark: #E8A5C4;
+  --color-primary-light: #FDF0F5;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--color-black);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Horizon', system-ui, sans-serif;
+    font-weight: normal;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .container-custom {
+    @apply max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12;
+  }
+}
