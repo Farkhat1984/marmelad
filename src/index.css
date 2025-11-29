@@ -47,4 +47,14 @@
   .container-custom {
     @apply max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12;
   }
+
+  /* PitchDeck: use system font for non-cover slides */
+  .pitch-slide-system-font h1,
+  .pitch-slide-system-font h2,
+  .pitch-slide-system-font h3,
+  .pitch-slide-system-font h4,
+  .pitch-slide-system-font h5,
+  .pitch-slide-system-font h6 {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
 }

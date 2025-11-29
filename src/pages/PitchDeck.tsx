@@ -304,7 +304,7 @@ const CoverSlide = () => (
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 0.1, duration: 0.5 }}
-      className="font-display text-6xl md:text-8xl text-gray-900 mb-4"
+      className="text-6xl md:text-8xl font-bold text-gray-900 mb-4"
     >
       MARMELAT
     </motion.h1>
@@ -984,7 +984,7 @@ const ContactSlide = () => (
       transition={{ delay: 0.2 }}
       className="bg-white rounded-2xl p-8 shadow-xl max-w-lg w-full mt-8 border border-gray-200"
     >
-      <h1 className="font-display text-4xl text-gray-900 mb-6">MARMELAT</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-6">MARMELAT</h1>
 
       <div className="space-y-4 text-left mb-8">
         <div className="flex items-center gap-4">
@@ -1189,7 +1189,7 @@ export const PitchDeck = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.3 }}
-          className="min-h-screen pt-8 pb-20"
+          className={`min-h-screen pt-8 pb-20 ${currentSlide !== 0 ? 'pitch-slide-system-font' : ''}`}
         >
           <CurrentSlideComponent />
         </motion.div>
