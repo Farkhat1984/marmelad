@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { pitchDeckData, pitchSlides } from '../data/pitchDeckData';
 import { contactInfo } from '../data/brandData';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 // ============================================
 // CHART COMPONENTS
@@ -1056,6 +1058,55 @@ const slideComponents: Record<string, React.FC> = {
 export const PitchDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
+  const exportContainerRef = useRef<HTMLDivElement>(null);
+
+  const exportToPDF = useCallback(async () => {
+    if (isExporting || !exportContainerRef.current) return;
+
+    setIsExporting(true);
+    setExportProgress(0);
+
+    const pdf = new jsPDF({
+      orientation: 'landscape',
+      unit: 'px',
+      format: [1920, 1080]
+    });
+
+    try {
+      const slideElements = exportContainerRef.current.querySelectorAll('[data-export-slide]');
+
+      for (let i = 0; i < slideElements.length; i++) {
+        setExportProgress(Math.round(((i + 1) / slideElements.length) * 100));
+
+        const slideEl = slideElements[i] as HTMLElement;
+
+        const canvas = await html2canvas(slideEl, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#f9fafb',
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 0.95);
+
+        if (i > 0) {
+          pdf.addPage([1920, 1080], 'landscape');
+        }
+
+        pdf.addImage(imgData, 'JPEG', 0, 0, 1920, 1080);
+      }
+
+      pdf.save('MARMELAT_Pitch_Deck.pdf');
+    } catch (error) {
+      console.error('Error exporting PDF:', error);
+      alert('Ошибка при экспорте PDF. Попробуйте ещё раз.');
+    } finally {
+      setIsExporting(false);
+      setExportProgress(0);
+    }
+  }, [isExporting]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -1170,16 +1221,40 @@ export const PitchDeck = () => {
         </button>
       </div>
 
-      {/* Back to site link */}
-      <a
-        href="/"
-        className="fixed top-4 left-4 z-50 bg-white rounded-lg px-4 py-2 shadow-lg border border-gray-200 text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2"
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        На сайт
-      </a>
+      {/* Back to site link and PDF download */}
+      <div className="fixed top-4 left-4 z-50 flex gap-2">
+        <a
+          href="/"
+          className="bg-white rounded-lg px-4 py-2 shadow-lg border border-gray-200 text-sm text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-2"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          На сайт
+        </a>
+        <button
+          onClick={exportToPDF}
+          disabled={isExporting}
+          className="bg-white rounded-lg px-4 py-2 shadow-lg border border-gray-200 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isExporting ? (
+            <>
+              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              {exportProgress}%
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Скачать PDF
+            </>
+          )}
+        </button>
+      </div>
 
       {/* Main slide area */}
       <AnimatePresence mode="wait">
@@ -1194,6 +1269,49 @@ export const PitchDeck = () => {
           <CurrentSlideComponent />
         </motion.div>
       </AnimatePresence>
+
+      {/* Hidden container for PDF export - renders all slides without animations */}
+      <div
+        ref={exportContainerRef}
+        className="fixed"
+        style={{ left: '-9999px', top: 0, width: 1920 }}
+        aria-hidden="true"
+      >
+        {pitchSlides.map((slide, index) => {
+          const SlideComponent = slideComponents[slide.id];
+          return (
+            <div
+              key={slide.id}
+              data-export-slide={index}
+              className={`bg-gray-50 ${index !== 0 ? 'pitch-slide-system-font' : ''}`}
+              style={{ width: 1920, height: 1080, padding: '32px 0 80px 0' }}
+            >
+              <SlideComponent />
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Export overlay */}
+      {isExporting && (
+        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center">
+          <div className="bg-white rounded-2xl p-8 shadow-2xl text-center max-w-sm">
+            <svg className="w-12 h-12 animate-spin mx-auto mb-4 text-marmelat-dark-pink" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+            </svg>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Экспорт в PDF</h3>
+            <p className="text-gray-600 mb-4">Подождите, идёт генерация презентации...</p>
+            <div className="w-full bg-gray-200 rounded-full h-3">
+              <div
+                className="bg-marmelat-dark-pink h-3 rounded-full transition-all duration-300"
+                style={{ width: `${exportProgress}%` }}
+              />
+            </div>
+            <p className="text-sm text-gray-500 mt-2">{exportProgress}%</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
