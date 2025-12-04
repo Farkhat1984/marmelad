@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  marmelad:
+    image: nginx:alpine
+    container_name: marmelad-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./dist:/usr/share/nginx/html:ro
+      - ./nginx-docker.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
