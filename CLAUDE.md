@@ -61,6 +61,12 @@ Single-page app with sections: `Header → Hero → About → Benefits → Produ
 
 ## Deployment
 
+**После внесения изменений всегда выполняй:**
+```bash
+npm run build && docker compose down && docker compose up -d --build
+```
+
+- Проект работает через Docker (nginx:alpine на порту 8080)
 - `deploy.sh` — Automated nginx + SSL setup
 - `docker-compose.yml` — Docker deployment
 - `nginx.conf` / `nginx-docker.conf` — Server configs

@@ -336,10 +336,9 @@ export const pitchDeckData = {
     equity: '10-15%',
     preMoneyValuation: '$13-18M',
     useOfFunds: [
-      { category: 'Маркетинг и digital', percentage: 35, amount: '$700K' },
+      { category: 'Маркетинг и digital', percentage: 45, amount: '$900K' },
       { category: 'Производство и сырьё', percentage: 25, amount: '$500K' },
-      { category: 'Сертификация (Halal, EU)', percentage: 20, amount: '$400K' },
-      { category: 'Команда и логистика', percentage: 10, amount: '$200K' },
+      { category: 'Команда и логистика', percentage: 20, amount: '$400K' },
       { category: 'Оборотный капитал', percentage: 10, amount: '$200K' },
     ] as UseOfFunds[],
     milestones: [

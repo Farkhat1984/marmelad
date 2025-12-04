@@ -126,36 +126,38 @@ const DonutChart = ({ data }: { data: { category: string; percentage: number; am
   let currentOffset = 0;
 
   return (
-    <div className="flex items-center gap-8">
-      <svg width={size} height={size} className="transform -rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
-        {data.map((item, index) => {
-          const strokeDasharray = `${(item.percentage / 100) * circumference} ${circumference}`;
-          const strokeDashoffset = -currentOffset;
-          currentOffset += (item.percentage / 100) * circumference;
+    <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
+      <div className="flex-shrink-0 w-[160px] h-[160px] sm:w-[200px] sm:h-[200px]">
+        <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full transform -rotate-90">
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#f3f4f6" strokeWidth={strokeWidth} />
+          {data.map((item, index) => {
+            const strokeDasharray = `${(item.percentage / 100) * circumference} ${circumference}`;
+            const strokeDashoffset = -currentOffset;
+            currentOffset += (item.percentage / 100) * circumference;
 
-          return (
-            <motion.circle
-              key={item.category}
-              cx={size / 2}
-              cy={size / 2}
-              r={radius}
-              fill="none"
-              stroke={colors[index % colors.length]}
-              strokeWidth={strokeWidth}
-              strokeDasharray={strokeDasharray}
-              strokeDashoffset={strokeDashoffset}
-              initial={{ strokeDasharray: `0 ${circumference}` }}
-              animate={{ strokeDasharray }}
-              transition={{ delay: index * 0.1, duration: 0.8 }}
-            />
-          );
-        })}
-      </svg>
+            return (
+              <motion.circle
+                key={item.category}
+                cx={size / 2}
+                cy={size / 2}
+                r={radius}
+                fill="none"
+                stroke={colors[index % colors.length]}
+                strokeWidth={strokeWidth}
+                strokeDasharray={strokeDasharray}
+                strokeDashoffset={strokeDashoffset}
+                initial={{ strokeDasharray: `0 ${circumference}` }}
+                animate={{ strokeDasharray }}
+                transition={{ delay: index * 0.1, duration: 0.8 }}
+              />
+            );
+          })}
+        </svg>
+      </div>
       <div className="space-y-2">
         {data.map((item, index) => (
           <div key={item.category} className="flex items-center gap-3">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: colors[index % colors.length] }} />
+            <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: colors[index % colors.length] }} />
             <div>
               <div className="text-sm font-medium text-gray-900">{item.percentage}% — {item.category}</div>
               <div className="text-xs text-gray-500">{item.amount}</div>
@@ -802,32 +804,32 @@ const FinancialsSlide = () => {
       </h2>
 
       {/* Key Metrics */}
-      <div className="flex justify-center gap-8 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12 max-w-4xl mx-auto">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center bg-white rounded-xl p-6 border border-gray-200"
+          className="text-center bg-white rounded-xl p-4 sm:p-6 border border-gray-200"
         >
-          <div className="text-4xl font-bold text-green-600">{pitchDeckData.financials.keyMetrics.cagr}</div>
-          <div className="text-gray-600">CAGR (2024-2028)</div>
+          <div className="text-2xl sm:text-4xl font-bold text-green-600">{pitchDeckData.financials.keyMetrics.cagr}</div>
+          <div className="text-sm sm:text-base text-gray-600">CAGR (2024-2028)</div>
         </motion.div>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-center bg-white rounded-xl p-6 border border-gray-200"
+          className="text-center bg-white rounded-xl p-4 sm:p-6 border border-gray-200"
         >
-          <div className="text-4xl font-bold text-gray-900">{pitchDeckData.financials.keyMetrics.breakeven}</div>
-          <div className="text-gray-600">Breakeven</div>
+          <div className="text-2xl sm:text-4xl font-bold text-gray-900">{pitchDeckData.financials.keyMetrics.breakeven}</div>
+          <div className="text-sm sm:text-base text-gray-600">Breakeven</div>
         </motion.div>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center bg-white rounded-xl p-6 border border-gray-200"
+          className="text-center bg-white rounded-xl p-4 sm:p-6 border border-gray-200"
         >
-          <div className="text-4xl font-bold text-marmelat-dark-pink">{pitchDeckData.financials.keyMetrics.targetValuation}</div>
-          <div className="text-gray-600">Target Valuation</div>
+          <div className="text-2xl sm:text-4xl font-bold text-marmelat-dark-pink">{pitchDeckData.financials.keyMetrics.targetValuation}</div>
+          <div className="text-sm sm:text-base text-gray-600">Target Valuation</div>
         </motion.div>
       </div>
 

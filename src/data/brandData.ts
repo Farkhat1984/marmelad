@@ -185,7 +185,7 @@ export const benefits: Benefit[] = [
 export const contactInfo: ContactInfo = {
   company: 'ИП «MARMELAT»',
   address: 'г. Алматы, Природа 15а',
-  phones: ['+7 700 725 22 74', '+7 747 362 52 49'],
+  phones: ['+7 700 725 22 74'],
   email: 'marmelat.kz@gmail.com',
   instagram: '@marmelat.kz',
   whatsapp: '+77007252274',
