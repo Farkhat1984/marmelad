@@ -5,6 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
+npm install      # Install dependencies (first time)
 npm run dev      # Start dev server (port 3000)
 npm run build    # TypeScript check + Vite build
 npm run lint     # ESLint
@@ -40,6 +41,7 @@ Single-page app with sections: `Header → Hero → About → Benefits → Produ
 - Keyboard navigation (arrows/space), dots navigation, mobile menu
 - Custom chart components: RevenueChart (line), DonutChart, CompetitiveMatrix (scatter), UnitEconomicsDashboard
 - Progress bar, slide counter, navigation arrows
+- PDF export feature using html2canvas + jspdf
 - All pitch content centralized in `src/data/pitchDeckData.ts`
 
 **Prices:** KZT (Kazakh Tenge), dual pricing: `priceRetail` / `priceWholesale`
@@ -61,13 +63,13 @@ Single-page app with sections: `Header → Hero → About → Benefits → Produ
 
 ## Deployment
 
-**После внесения изменений всегда выполняй:**
+**After making changes, always run:**
 ```bash
 npm run build && docker compose down && docker compose up -d --build
 ```
 
-- Проект работает через Docker (nginx:alpine на порту 8080)
+- Docker deployment using nginx:alpine on port 8080
 - `deploy.sh` — Automated nginx + SSL setup
-- `docker-compose.yml` — Docker deployment
+- `docker-compose.yml` — Docker configuration
 - `nginx.conf` / `nginx-docker.conf` — Server configs
 - Target domain: www.marmelat.kz

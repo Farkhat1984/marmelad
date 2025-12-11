@@ -245,9 +245,9 @@ export const pitchDeckData = {
       { value: '50K+', label: 'Подписчиков в Instagram', growth: '+200%' },
     ],
     milestones: [
-      { year: '2023', event: 'Запуск бренда, первые продажи' },
-      { year: '2024', event: 'Выход в Magnum, Золотое Яблоко' },
-      { year: '2025', event: 'Seed-раунд, масштабирование' },
+      { year: '2024', event: 'Запуск бренда, первые продажи' },
+      { year: '2025', event: 'Выход в Magnum, Золотое Яблоко' },
+      { year: '2026', event: 'Seed-раунд, масштабирование' },
     ] as Milestone[],
     retailers: [
       { name: 'Magnum', type: 'Крупнейшая сеть КЗ' },
@@ -313,19 +313,19 @@ export const pitchDeckData = {
   financials: {
     title: 'Финансы',
     historicalRevenue: [
-      { year: '2023', revenue: 30000 },
-      { year: '2024', revenue: 100000 },
+      { year: '2024', revenue: 30000 },
+      { year: '2025', revenue: 100000 },
     ],
     projections: [
-      { year: '2025', revenue: 600000, revenueFormatted: '$0.6M', ebitda: 60000, ebitdaMargin: '10%' },
-      { year: '2026', revenue: 2800000, revenueFormatted: '$2.8M', ebitda: 504000, ebitdaMargin: '18%' },
-      { year: '2027', revenue: 7500000, revenueFormatted: '$7.5M', ebitda: 1875000, ebitdaMargin: '25%' },
-      { year: '2028', revenue: 14000000, revenueFormatted: '$14M', ebitda: 4200000, ebitdaMargin: '30%' },
+      { year: '2026', revenue: 600000, revenueFormatted: '$0.6M', ebitda: 60000, ebitdaMargin: '10%' },
+      { year: '2027', revenue: 2800000, revenueFormatted: '$2.8M', ebitda: 504000, ebitdaMargin: '18%' },
+      { year: '2028', revenue: 7500000, revenueFormatted: '$7.5M', ebitda: 1875000, ebitdaMargin: '25%' },
+      { year: '2029', revenue: 14000000, revenueFormatted: '$14M', ebitda: 4200000, ebitdaMargin: '30%' },
     ] as FinancialProjection[],
     keyMetrics: {
       cagr: '135%',
-      breakeven: 'Q4 2025',
-      targetValuation: '$50-70M к 2029',
+      breakeven: 'Q4 2026',
+      targetValuation: '$50-70M к 2030',
     },
   },
 
@@ -342,10 +342,9 @@ export const pitchDeckData = {
       { category: 'Оборотный капитал', percentage: 10, amount: '$200K' },
     ] as UseOfFunds[],
     milestones: [
-      { milestone: 'Q2 2025', target: 'Запуск шампуней и масок' },
-      { milestone: 'Q4 2025', target: 'Выход в Узбекистан' },
-      { milestone: 'Q2 2026', target: '$1M ARR' },
-      { milestone: 'Q4 2026', target: 'Halal + EU сертификация' },
+      { milestone: 'Q2 2026', target: 'Запуск шампуней и масок' },
+      { milestone: 'Q4 2026', target: 'Выход в Узбекистан' },
+      { milestone: 'Q2 2027', target: '$1M ARR' },
     ],
     exitStrategy: {
       timeline: '4-5 лет',
