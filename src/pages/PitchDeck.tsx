@@ -667,7 +667,7 @@ const BusinessModelSlide = () => (
 );
 
 const TractionSlide = () => (
-  <div className="h-full px-8 py-6 overflow-y-auto">
+  <div className="h-full px-4 md:px-8 py-6 overflow-y-auto">
     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 text-center">
       {pitchDeckData.traction.title}
     </h2>
@@ -680,10 +680,11 @@ const TractionSlide = () => (
       ))}
     </div>
 
-    {/* Timeline - horizontal layout for better PDF compatibility */}
+    {/* Timeline - vertical on mobile, horizontal on desktop */}
     <div className="max-w-4xl mx-auto mb-6">
       <h3 className="text-lg font-bold text-gray-900 mb-4 text-center">Ключевые этапы</h3>
-      <div className="flex justify-center items-center gap-4">
+      {/* Desktop: horizontal layout */}
+      <div className="hidden md:flex justify-center items-center gap-4">
         {pitchDeckData.traction.milestones.map((milestone, index) => (
           <motion.div
             key={milestone.year}
@@ -702,9 +703,24 @@ const TractionSlide = () => (
           </motion.div>
         ))}
       </div>
+      {/* Mobile: vertical layout */}
+      <div className="md:hidden space-y-3">
+        {pitchDeckData.traction.milestones.map((milestone, index) => (
+          <motion.div
+            key={milestone.year}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 + index * 0.15 }}
+            className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm flex items-center gap-4"
+          >
+            <div className="font-bold text-lg min-w-[60px]" style={{ color: '#E8A5C4' }}>{milestone.year}</div>
+            <div style={{ color: '#374151' }}>{milestone.event}</div>
+          </motion.div>
+        ))}
+      </div>
     </div>
 
-    {/* Retailers - 6 columns grid for compact layout */}
+    {/* Retailers - 2 columns on mobile, 6 on desktop */}
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
@@ -712,7 +728,7 @@ const TractionSlide = () => (
       className="max-w-4xl mx-auto"
     >
       <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">Ритейл-партнёры</h3>
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
         {pitchDeckData.traction.retailers.map((retailer) => (
           <div key={retailer.name} className="bg-white rounded-xl p-3 border border-gray-200 text-center">
             <div className="font-bold text-gray-900 text-sm">{retailer.name}</div>
@@ -801,47 +817,47 @@ const FinancialsSlide = () => {
   ];
 
   return (
-    <div className="h-full px-8 py-6 overflow-y-auto">
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 text-center">
+    <div className="h-full px-4 md:px-8 py-6 overflow-y-auto">
+      <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6 text-center">
         {pitchDeckData.financials.title}
       </h2>
 
       {/* Key Metrics */}
-      <div className="grid grid-cols-3 gap-3 mb-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-3 gap-2 md:gap-3 mb-4 md:mb-6 max-w-4xl mx-auto">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="text-center bg-white rounded-xl p-3 sm:p-4 border border-gray-200"
+          className="text-center bg-white rounded-xl p-2 sm:p-4 border border-gray-200"
         >
-          <div className="text-xl sm:text-3xl font-bold" style={{ color: '#16a34a' }}>{pitchDeckData.financials.keyMetrics.cagr}</div>
-          <div className="text-xs sm:text-sm text-gray-600">CAGR (2025-2029)</div>
+          <div className="text-lg sm:text-3xl font-bold" style={{ color: '#16a34a' }}>{pitchDeckData.financials.keyMetrics.cagr}</div>
+          <div className="text-[10px] sm:text-sm text-gray-600">CAGR (2025-2029)</div>
         </motion.div>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-center bg-white rounded-xl p-3 sm:p-4 border border-gray-200"
+          className="text-center bg-white rounded-xl p-2 sm:p-4 border border-gray-200"
         >
-          <div className="text-xl sm:text-3xl font-bold text-gray-900">{pitchDeckData.financials.keyMetrics.breakeven}</div>
-          <div className="text-xs sm:text-sm text-gray-600">Breakeven</div>
+          <div className="text-lg sm:text-3xl font-bold text-gray-900">{pitchDeckData.financials.keyMetrics.breakeven}</div>
+          <div className="text-[10px] sm:text-sm text-gray-600">Breakeven</div>
         </motion.div>
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-center bg-white rounded-xl p-3 sm:p-4 border border-gray-200"
+          className="text-center bg-white rounded-xl p-2 sm:p-4 border border-gray-200"
         >
-          <div className="text-xl sm:text-3xl font-bold" style={{ color: '#E8A5C4' }}>{pitchDeckData.financials.keyMetrics.targetValuation}</div>
-          <div className="text-xs sm:text-sm text-gray-600">Target Valuation</div>
+          <div className="text-lg sm:text-3xl font-bold" style={{ color: '#E8A5C4' }}>{pitchDeckData.financials.keyMetrics.targetValuation}</div>
+          <div className="text-[10px] sm:text-sm text-gray-600">Target Valuation</div>
         </motion.div>
       </div>
 
-      {/* Two column layout for chart and table */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+      {/* Two column layout for chart and table - stacked on mobile */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 max-w-6xl mx-auto">
         {/* Revenue Chart */}
         <div>
-          <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">Выручка и прогноз</h3>
-          <div className="bg-white rounded-xl p-4 border border-gray-200">
+          <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 md:mb-3 text-center">Выручка и прогноз</h3>
+          <div className="bg-white rounded-xl p-3 md:p-4 border border-gray-200">
             <RevenueChart data={allRevenue} />
           </div>
         </div>
@@ -852,24 +868,24 @@ const FinancialsSlide = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <h3 className="text-lg font-bold text-gray-900 mb-3 text-center">EBITDA Margin Projection</h3>
-          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-            <table className="w-full">
+          <h3 className="text-base md:text-lg font-bold text-gray-900 mb-2 md:mb-3 text-center">EBITDA Margin Projection</h3>
+          <div className="bg-white rounded-xl border border-gray-200 overflow-hidden overflow-x-auto">
+            <table className="w-full min-w-[300px]">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="p-3 text-left text-gray-600 text-sm">Год</th>
-                  <th className="p-3 text-right text-gray-600 text-sm">Выручка</th>
-                  <th className="p-3 text-right text-gray-600 text-sm">EBITDA</th>
-                  <th className="p-3 text-right text-gray-600 text-sm">Margin</th>
+                  <th className="p-2 md:p-3 text-left text-gray-600 text-xs md:text-sm">Год</th>
+                  <th className="p-2 md:p-3 text-right text-gray-600 text-xs md:text-sm">Выручка</th>
+                  <th className="p-2 md:p-3 text-right text-gray-600 text-xs md:text-sm">EBITDA</th>
+                  <th className="p-2 md:p-3 text-right text-gray-600 text-xs md:text-sm">Margin</th>
                 </tr>
               </thead>
               <tbody>
                 {pitchDeckData.financials.projections.map((proj) => (
                   <tr key={proj.year} className="border-t border-gray-100">
-                    <td className="p-3 font-bold text-gray-900">{proj.year}</td>
-                    <td className="p-3 text-right text-gray-700">{proj.revenueFormatted}</td>
-                    <td className="p-3 text-right text-gray-700">${(proj.ebitda / 1000000).toFixed(proj.ebitda >= 1000000 ? 1 : 2)}M</td>
-                    <td className="p-3 text-right font-bold" style={{ color: '#16a34a' }}>{proj.ebitdaMargin}</td>
+                    <td className="p-2 md:p-3 font-bold text-gray-900 text-sm">{proj.year}</td>
+                    <td className="p-2 md:p-3 text-right text-gray-700 text-sm">{proj.revenueFormatted}</td>
+                    <td className="p-2 md:p-3 text-right text-gray-700 text-sm">${(proj.ebitda / 1000000).toFixed(proj.ebitda >= 1000000 ? 1 : 2)}M</td>
+                    <td className="p-2 md:p-3 text-right font-bold text-sm" style={{ color: '#16a34a' }}>{proj.ebitdaMargin}</td>
                   </tr>
                 ))}
               </tbody>
