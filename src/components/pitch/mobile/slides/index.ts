@@ -1,0 +1,12 @@
+export { CoverSlide } from './CoverSlide';
+export { ProblemSlide } from './ProblemSlide';
+export { SolutionSlide } from './SolutionSlide';
+export { MarketSlide } from './MarketSlide';
+export { ProductsSlide } from './ProductsSlide';
+export { BusinessModelSlide } from './BusinessModelSlide';
+export { TractionSlide } from './TractionSlide';
+export { CompetitionSlide } from './CompetitionSlide';
+export { TeamSlide } from './TeamSlide';
+export { FinancialsSlide } from './FinancialsSlide';
+export { InvestmentSlide } from './InvestmentSlide';
+export { ContactSlide } from './ContactSlide';
